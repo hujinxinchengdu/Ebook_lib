@@ -3,7 +3,7 @@
 <mapper namespace="com.project.hjxwiki.mapper.TestMapper" >
 
     <select id="list" resultType="com.project.hjxwiki.domain.TestDB">
-        select `id`, `name` from `test`
+        select `id`, `name`, `password` from `test`
     </select>
 
 </mapper>
