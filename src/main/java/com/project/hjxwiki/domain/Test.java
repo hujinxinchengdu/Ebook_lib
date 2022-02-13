@@ -4,7 +4,7 @@ package com.project.hjxwiki.domain;
  * @author Jinxin Hu
  * @version 1.0
  */
-public class TestDB {
+public class Test {
     private Integer id;
     private String name;
     private String password;

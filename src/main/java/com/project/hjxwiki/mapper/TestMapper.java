@@ -1,6 +1,6 @@
 package com.project.hjxwiki.mapper;
 
-import com.project.hjxwiki.domain.TestDB;
+import com.project.hjxwiki.domain.Test;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  * @version 1.0
  */
 public interface TestMapper {
-    public List<TestDB> list();
+    public List<Test> list();
 }

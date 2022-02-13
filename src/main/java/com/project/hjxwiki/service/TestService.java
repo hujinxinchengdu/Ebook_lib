@@ -1,6 +1,6 @@
 package com.project.hjxwiki.service;
 
-import com.project.hjxwiki.domain.TestDB;
+import com.project.hjxwiki.domain.Test;
 import com.project.hjxwiki.mapper.TestMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class TestService {
     @Resource
     private TestMapper testMapper;
 
-    public List<TestDB> list() {
+    public List<Test> list() {
         return testMapper.list();
     }
 }

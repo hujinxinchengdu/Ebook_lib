@@ -1,6 +1,6 @@
 package com.project.hjxwiki.controller;
 
-import com.project.hjxwiki.domain.TestDB;
+import com.project.hjxwiki.domain.Test;
 import com.project.hjxwiki.service.TestService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +40,7 @@ public class TestController {
     }
 
     @GetMapping("/test/list")
-    public List<TestDB> list() {
+    public List<Test> list() {
         return testService.list();
     }
 }
