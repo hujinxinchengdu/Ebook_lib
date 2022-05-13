@@ -47,12 +47,12 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks" >
+      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
             <template #actions>
               <span v-for="{ type, text } in actions" :key="type">
-                <component v-bind:is="type" style="margin-right: 8px" />
+                <component v-bind:is="type" style="margin-right: 8px"/>
                 {{ text }}
               </span>
             </template>
@@ -60,7 +60,9 @@
               <template #title>
                 <a :href="item.href">{{ item.name }}</a>
               </template>
-              <template #avatar><a-avatar :src="item.cover" /></template>
+              <template #avatar>
+                <a-avatar :src="item.cover"/>
+              </template>
             </a-list-item-meta>
           </a-list-item>
         </template>
@@ -70,8 +72,8 @@
 </template>
 
 <script lang="ts">
-import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
-import { defineComponent, onMounted, ref, reactive,toRef } from "vue";
+import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
+import {defineComponent, onMounted, ref, reactive, toRef} from "vue";
 import axios from 'axios';
 
 const listData: any = [];
@@ -100,11 +102,11 @@ export default defineComponent({
   setup() {
     console.log("setup");
     const ebooks = ref();
-    const ebooks1 = reactive({books:[]});
+    const ebooks1 = reactive({books: []});
 
     onMounted(() => {
       console.log("onMounted");
-      axios.get("http://localhost:8880/ebook/list?name=Spring").then((response) => {
+      axios.get("http://localhost:8880/ebook/list").then((response) => {
         const data = response.data;
         ebooks.value = data.content;
         ebooks1.books = data.content;
@@ -119,13 +121,13 @@ export default defineComponent({
       pageSize: 3,
     };
     const actions: any = [
-      { type: 'StarOutlined', text: '156' },
-      { type: 'LikeOutlined', text: '156' },
-      { type: 'MessageOutlined', text: '2' },
+      {type: 'StarOutlined', text: '156'},
+      {type: 'LikeOutlined', text: '156'},
+      {type: 'MessageOutlined', text: '2'},
     ];
     return {
       ebooks,
-      bookslist : toRef(ebooks1, "books"),
+      bookslist: toRef(ebooks1, "books"),
       listData,
       pagination,
       actions,
@@ -133,3 +135,13 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.ant-avatar {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 8%;
+  margin: 5px 0;
+}
+</style>
