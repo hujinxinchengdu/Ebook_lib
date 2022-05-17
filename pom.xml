@@ -61,8 +61,6 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.6</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
