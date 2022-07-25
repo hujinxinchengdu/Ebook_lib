@@ -103,13 +103,21 @@ export default defineComponent({
     const ebooks = ref();
     const ebooks1 = reactive({books: []});
 
+    //开发周期长
     onMounted(() => {
-      axios.get("/ebook/list").then((response) => {
+      axios.get("/ebook/list", {
+        params: {
+          page: 1,
+          size: 1000
+        }
+      }).then((response) => {
         const data = response.data;
-        ebooks.value = data.content;
-        ebooks1.books = data.content;
+        ebooks.value = data.content.list;
+        ebooks1.books = data.content.total;
       });
     });
+
+
 
     const pagination = {
       onChange: (page: any) => {
