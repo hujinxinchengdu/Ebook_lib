@@ -16,17 +16,25 @@
         </template>
         <template v-slot:action="{text, record}">
           <a-space>
-            <a-button type="primary">
-              编辑
+            <a-button type="primary" @click="edit">
+              Edit
             </a-button>
             <a-button type="danger">
-              删除
+              Delete
             </a-button>
           </a-space>
         </template>
       </a-table>
     </a-layout-content>
   </a-layout>
+  <a-modal
+      title="E-Book Table"
+      v-model:visible="modalVisible"
+      :confirm-loading="modalLoading"
+      @ok="handleModalOk"
+  >
+    <p>test</p>
+  </a-modal>
 </template>
 
 <script lang="ts">
@@ -112,6 +120,21 @@ import axios from 'axios';
         });
       }
 
+      //------------------Table-----------------
+      const modalVisible = ref<boolean>(false);
+      const modalLoading = ref<boolean>(false);
+      const handleModalOk = () => {
+        modalLoading.value = true;
+        setTimeout(() => {
+          modalVisible.value = false;
+          modalLoading.value = false;
+        }, 2000);
+      };
+
+      const edit = () => {
+        modalVisible.value = true;
+      };
+
       onMounted(() => {
         handleQuery({
           //这里必须和后端PageReq类的参数名字相同, 这样Controller才会将前端的参数自动映射到后端
@@ -125,7 +148,11 @@ import axios from 'axios';
         pagination,
         columns,
         loading,
-        handleTableChange
+        handleTableChange,
+        modalVisible,
+        modalLoading,
+        edit,
+        handleModalOk
       };
     },
     components: {
