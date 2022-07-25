@@ -16,7 +16,7 @@
         </template>
         <template v-slot:action="{text, record}">
           <a-space>
-            <a-button type="primary" @click="edit">
+            <a-button type="primary" @click="edit(record)">
               Edit
             </a-button>
             <a-button type="danger">
@@ -27,19 +27,44 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+<!--  edit E-book Table-->
   <a-modal
       title="E-Book Table"
       v-model:visible="modalVisible"
       :confirm-loading="modalLoading"
       @ok="handleModalOk"
   >
-    <p>test</p>
+    <a-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
+      <a-form-item label="Cover">
+        <a-input v-model:value="ebook.cover" />
+      </a-form-item>
+      <a-form-item label="Name">
+        <a-input v-model:value="ebook.name" />
+      </a-form-item>
+<!--      <a-form-item label="Category">-->
+<!--        <a-cascader-->
+<!--            v-model:value="categoryIds"-->
+<!--            :field-names="{ label: 'name', value: 'id', children: 'children' }"-->
+<!--            :options="level1"-->
+<!--        />-->
+<!--      </a-form-item>-->
+      <a-form-item label="Category One">
+        <a-input v-model:value="ebook.category1Id" />
+      </a-form-item>
+      <a-form-item label="Category Two">
+        <a-input v-model:value="ebook.category2Id" />
+      </a-form-item>
+      <a-form-item label="Description">
+        <a-input v-model:value="ebook.description" type="textarea" />
+      </a-form-item>
+    </a-form>
+
   </a-modal>
 </template>
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
   export default defineComponent({
     name: 'AdminEbook',
@@ -57,27 +82,27 @@ import axios from 'axios';
       const loading = ref(false);
       const columns = [
         {
-          title: '封面',
+          title: 'Cover',
           dataIndex: 'cover',
           slots: {customRender: 'cover'}
         },
         {
-          title: '名称',
+          title: 'Name',
           dataIndex: 'name'
         },
         {
-          title: '分类',
+          title: 'Category',
         },
         {
-          title: '文档数',
+          title: 'Documents',
           dataIndex: 'docCount'
         },
         {
-          title: '阅读数',
+          title: 'Views',
           dataIndex: 'viewCount'
         },
         {
-          title: '点赞数',
+          title: 'Likes',
           dataIndex: 'voteCount'
         },
         {
@@ -121,6 +146,7 @@ import axios from 'axios';
       }
 
       //------------------Table-----------------
+      const ebook = ref({});
       const modalVisible = ref<boolean>(false);
       const modalLoading = ref<boolean>(false);
       const handleModalOk = () => {
@@ -131,8 +157,9 @@ import axios from 'axios';
         }, 2000);
       };
 
-      const edit = () => {
+      const edit = (record: any) => {
         modalVisible.value = true;
+        ebook.value = record;
       };
 
       onMounted(() => {
@@ -152,7 +179,8 @@ import axios from 'axios';
         modalVisible,
         modalLoading,
         edit,
-        handleModalOk
+        handleModalOk,
+        ebook
       };
     },
     components: {
