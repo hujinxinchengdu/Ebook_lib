@@ -91,7 +91,12 @@ import axios from 'axios';
           dataIndex: 'name'
         },
         {
-          title: 'Category',
+          title: 'Category 1',
+          dataIndex: 'category1Id'
+        },
+        {
+          title: 'Category 2',
+          dataIndex: 'category2Id'
         },
         {
           title: 'Documents',
@@ -150,11 +155,23 @@ import axios from 'axios';
       const modalVisible = ref<boolean>(false);
       const modalLoading = ref<boolean>(false);
       const handleModalOk = () => {
-        modalLoading.value = true;
-        setTimeout(() => {
-          modalVisible.value = false;
-          modalLoading.value = false;
-        }, 2000);
+        modalLoading.value = true; //点击保存的时候,显示loading的效果
+        axios.post("/ebook/save", ebook.value).then((response) => {
+          //拿到结果后将loading效果去掉,并且让窗口消失.
+          const data = response.data; //data = commonResp
+          if (data.success) {
+            modalVisible.value = false;
+            modalLoading.value = false;
+
+            //重新加载列表
+            handleQuery({
+              page: pagination.value.current,
+              size: pagination.value.pageSize,
+            });
+
+          }
+
+        });
       };
 
       const edit = (record: any) => {
