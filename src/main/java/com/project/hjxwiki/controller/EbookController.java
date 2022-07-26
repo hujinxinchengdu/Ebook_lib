@@ -33,7 +33,7 @@ public class EbookController {
     }
 
     @PostMapping("/save")
-    public CommonResp save(@RequestBody EbookSaveReq req) {
+    public CommonResp save(@Valid @RequestBody EbookSaveReq req) {
         //如果是'headers: Object { Accept: "application/json, text/plain, */*" }'方式提交, 需要添加@RequestBody使得提交方式变为json
         CommonResp resp = new CommonResp<>();
         ebookService.save(req);

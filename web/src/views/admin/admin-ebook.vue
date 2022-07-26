@@ -91,7 +91,7 @@ import {message} from 'ant-design-vue';
       const ebooks = ref();
       const pagination = ref({
         current: 1,
-        pageSize: 4,
+        pageSize: 10,
         total: 0
       });
       const loading = ref(false);
@@ -178,16 +178,18 @@ import {message} from 'ant-design-vue';
         modalLoading.value = true; //点击保存的时候,显示loading的效果
         axios.post("/ebook/save", ebook.value).then((response) => {
           //拿到结果后将loading效果去掉,并且让窗口消失.
+          modalLoading.value = false;
           const data = response.data; //data = commonResp
           if (data.success) {
             modalVisible.value = false;
-            modalLoading.value = false;
 
             //重新加载列表
             handleQuery({
               page: pagination.value.current,
               size: pagination.value.pageSize,
             });
+          } else {
+            message.error(data.message);
           }
         });
       };
