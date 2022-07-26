@@ -3,6 +3,11 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
+      <p>
+        <a-button type="primary" @click="add()" size="large">
+          Add
+        </a-button>
+      </p>
       <a-table
           :columns="columns"
           :row-key = "record => record.id"
@@ -168,15 +173,24 @@ import axios from 'axios';
               page: pagination.value.current,
               size: pagination.value.pageSize,
             });
-
           }
-
         });
       };
 
+      /**
+       * Edit an E-book
+       */
       const edit = (record: any) => {
         modalVisible.value = true;
         ebook.value = record;
+      };
+
+      /**
+       * Add new E-book
+       */
+      const add = () => {
+        modalVisible.value = true;
+        ebook.value = {};
       };
 
       onMounted(() => {
@@ -193,11 +207,15 @@ import axios from 'axios';
         columns,
         loading,
         handleTableChange,
+
+        edit,
+        add,
+
+        ebook,
         modalVisible,
         modalLoading,
-        edit,
-        handleModalOk,
-        ebook
+        handleModalOk
+
       };
     },
     components: {

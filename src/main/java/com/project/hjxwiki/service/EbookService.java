@@ -10,6 +10,7 @@ import com.project.hjxwiki.req.EbookSaveReq;
 import com.project.hjxwiki.resp.EbookQueryResp;
 import com.project.hjxwiki.resp.PageResp;
 import com.project.hjxwiki.util.CopyUtil;
+import com.project.hjxwiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
+    @Resource
+    private SnowFlake snowFlake;
+
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
 
         EbookExample ebookExample = new EbookExample();
@@ -45,14 +49,12 @@ public class EbookService {
         LOG.info("总行数:{}", pageInfo.getTotal());
         LOG.info("总页数:{}", pageInfo.getPages());
 
-
 //        List<EbookResp> respList = new ArrayList<>();
 //        for (Ebook ebook : ebookList) {
 //            EbookResp ebookResp = new EbookResp();
 //            BeanUtils.copyProperties(ebook,ebookResp);
 //            respList.add(ebookResp);
 //        }
-
 
         List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
 
@@ -70,6 +72,8 @@ public class EbookService {
         //由于我们的update和insert都需要用到这个api所以需要对传入的参数做判断, 来确定是添加一个新的数据还是,更新
         if (ObjectUtils.isEmpty(req.getId())) {
             //新增
+            //using雪花算法
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         } else {
             //更新
