@@ -24,9 +24,17 @@
             <a-button type="primary" @click="edit(record)">
               Edit
             </a-button>
-            <a-button type="danger">
-              Delete
-            </a-button>
+            <a-popconfirm
+                title="Are you sure delete this task? After delete data Will Delete Forever"
+                ok-text="Yes"
+                cancel-text="No"
+                @confirm="handleDelete(record.id)"
+            >
+              <a-button type="danger">
+                Delete
+              </a-button>
+            </a-popconfirm>
+
           </a-space>
         </template>
       </a-table>
@@ -193,6 +201,19 @@ import axios from 'axios';
         ebook.value = {};
       };
 
+      const handleDelete = (id: number) => {
+        axios.delete("/ebook/delete/" + id).then((response) => {
+          const data = response.data; //data = commonResp
+          if (data.success) {
+            //重新加载列表
+            handleQuery({
+              page: pagination.value.current,
+              size: pagination.value.pageSize,
+            });
+          }
+        });
+      };
+
       onMounted(() => {
         handleQuery({
           //这里必须和后端PageReq类的参数名字相同, 这样Controller才会将前端的参数自动映射到后端
@@ -210,6 +231,7 @@ import axios from 'axios';
 
         edit,
         add,
+        handleDelete,
 
         ebook,
         modalVisible,

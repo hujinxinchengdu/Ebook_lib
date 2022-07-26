@@ -38,4 +38,14 @@ public class EbookController {
         ebookService.save(req);
         return resp;
     }
+
+    //如果要传入id需要在参数列表中使用@PathVariable定义.这样参数列表中的id会自动映射传入的id
+    //删除需要用DeleteMapping
+    @DeleteMapping("/delete/{id}")
+    public CommonResp delete(@PathVariable Long id) {
+        //如果是'headers: Object { Accept: "application/json, text/plain, */*" }'方式提交, 需要添加@RequestBody使得提交方式变为json
+        CommonResp resp = new CommonResp<>();
+        ebookService.delete(id);
+        return resp;
+    }
 }

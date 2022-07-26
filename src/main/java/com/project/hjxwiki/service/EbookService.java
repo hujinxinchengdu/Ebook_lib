@@ -81,4 +81,12 @@ public class EbookService {
         }
 
     }
+
+    /**
+     * Delete Ebook by using primary key
+     * @param id
+     */
+    public void delete(Long id){
+        ebookMapper.deleteByPrimaryKey(id);
+    }
 }
