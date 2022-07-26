@@ -79,6 +79,8 @@
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
+import {message} from 'ant-design-vue';
+
   export default defineComponent({
     name: 'AdminEbook',
 
@@ -146,10 +148,15 @@ import axios from 'axios';
           loading.value = false;
           const data = response.data;
           console.log(data)
-          ebooks.value = data.content.list;
-          //重置分页按钮
-          pagination.value.current = params.page;
-          pagination.value.total = data.content.total;
+          if(data.success) {
+            ebooks.value = data.content.list;
+            //重置分页按钮
+            pagination.value.current = params.page;
+            pagination.value.total = data.content.total;
+          } else {
+            message.error(data.message);
+          }
+
         });
       };
       /**
