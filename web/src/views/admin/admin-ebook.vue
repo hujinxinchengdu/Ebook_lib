@@ -99,6 +99,7 @@ import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { defineComponent, onMounted, ref } from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue';
+import {Tool} from "@/util/tool";
 
   export default defineComponent({
     name: 'AdminEbook',
@@ -219,7 +220,7 @@ import {message} from 'ant-design-vue';
        */
       const edit = (record: any) => {
         modalVisible.value = true;
-        ebook.value = record;
+        ebook.value = Tool.copy(record);
       };
 
       /**
