@@ -4,10 +4,29 @@
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <p>
-        <a-button type="primary" @click="add()" size="large">
-          Add
-        </a-button>
+        <a-form layout="inline" :model="data">
+          <a-form-item>
+            <a-input v-model:value="data.name" placeholder="Ebook name">
+            </a-input>
+          </a-form-item>
+          <a-form-item>
+            <a-button
+                type="primary"
+                @click="handleQuery({page: 1, size: pagination.pageSize})"
+                size="large"
+            >
+              Search
+            </a-button>
+          </a-form-item>
+          <a-form-item>
+            <a-button type="primary" @click="add()" size="large">
+              Add
+            </a-button>
+          </a-form-item>
+        </a-form>
+
       </p>
+
       <a-table
           :columns="columns"
           :row-key = "record => record.id"
@@ -77,7 +96,7 @@
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { defineComponent, onMounted, ref} from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import axios from 'axios';
 import {message} from 'ant-design-vue';
 
@@ -86,8 +105,8 @@ import {message} from 'ant-design-vue';
 
 
     setup() {
-      // const param = ref();
-      // param.value = {};
+      const data = ref();
+      data.value = {};
       const ebooks = ref();
       const pagination = ref({
         current: 1,
@@ -142,7 +161,8 @@ import {message} from 'ant-design-vue';
         axios.get("/ebook/list", {
           params: {
             page: params.page,
-            size: params.size
+            size: params.size,
+            name: data.value.name
           }
         }).then((response) => {
           loading.value = false;
@@ -232,11 +252,13 @@ import {message} from 'ant-design-vue';
       });
 
       return {
+        data,
         ebooks,
         pagination,
         columns,
         loading,
         handleTableChange,
+        handleQuery,
 
         edit,
         add,
